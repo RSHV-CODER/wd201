@@ -1,0 +1,15 @@
+{
+    "name": "todo-cli",
+    "version": "1.0.0",
+    "description": "",
+    "main": "todo.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "prepare": "cd .. && husky install todo-cli/.husky"
+    },
+    "author": "Rishav  <rishav.202204005@tulas.edu.in>",
+    "license": "ISC",
+    "dependencies": {
+      "husky": "^8.0.3"
+    }
+  }
