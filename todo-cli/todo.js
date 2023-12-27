@@ -27,7 +27,7 @@ const todoList = () => {
     const output = list.map((item) => {
       const status = item.completed ? "[x]" : "[ ]";
       const dateFormatted = item.dueDate ? ` ${new Date(item.dueDate).toLocaleDateString("en-CA")}` : "";
-      return ${status} ${item.title}${dateFormatted};
+      return `${status} ${item.title}${dateFormatted}`;
     });
     return output.join("\n");
   };
