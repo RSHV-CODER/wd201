@@ -1,98 +1,52 @@
-/* eslint-disable no-undef */
-const todoList = () => {
-  const all = [];
+// Import the necessary modules for testing (e.g., Jest or another testing library)
+// Ensure you have access to the 'todoList' function
 
-  const add = (todoItem) => {
-    all.push(todoItem);
-  };
+test("Test to add a todo", () => {
+  const todos = todoList();
+  const initialTodoCount = todos.all.length;
 
-  const markAsComplete = (index) => {
-    if (all[index]) {
-      all[index].completed = true;
-    }
-  };
+  todos.add({ title: "New Task", dueDate: "2023-12-28", completed: false });
 
-  const overdue = () => {
-    const over = all.filter((item) => {
-      const dueDate = new Date(item.dueDate);
-      return dueDate.getDate() === todayDate - 1;
-    });
-    return over;
-  };
+  expect(todos.all.length).toBe(initialTodoCount + 1);
+  expect(todos.all[initialTodoCount].title).toBe("New Task");
+});
 
-  const dueToday = () => {
-    const due = all.filter((item) => {
-      const dueDate = new Date(item.dueDate);
-      return dueDate.getDate() === todayDate;
-    });
-    return due;
-  };
+test("Test to mark a todo as complete", () => {
+  const todos = todoList();
+  todos.add({ title: "Task to Complete", dueDate: "2023-12-28", completed: false });
 
-  const dueLater = () => {
-    const later = all.filter((item) => {
-      const dueDate = new Date(item.dueDate);
-      return dueDate.getDate() === todayDate + 1;
-    });
-    return later;
-  };
+  const initialCompletionStatus = todos.all[0].completed;
+  todos.markAsComplete(0);
 
-  const toDisplayableList = (list) => {
-    const output = list.map((item) => {
-      const date = new Date(item.dueDate);
-      const fd = date.toISOString().split("T")[0];
-      const status = item.completed ? "[x]" : "[ ]";
-      return ${status} ${item.title} ${fd};
-    });
-    return output.join("\n");
-  };
+  expect(todos.all[0].completed).toBe(!initialCompletionStatus);
+});
 
-  const today = new Date();
-  const todayDate = today.getDate();
+test("Test to retrieve overdue items", () => {
+  const todos = todoList();
+  todos.add({ title: "Overdue Task", dueDate: "2023-12-25", completed: false });
 
-  return {
-    all,
-    add,
-    markAsComplete,
-    overdue,
-    dueToday,
-    dueLater,
-    toDisplayableList,
-  };
-};
+  const overdueItems = todos.overdue();
 
-module.exports = todoList;
+  expect(overdueItems.length).toBe(1);
+  expect(overdueItems[0].title).toBe("Overdue Task");
+});
 
-const todos = todoList();
+test("Test to retrieve due today items", () => {
+  const todos = todoList();
+  todos.add({ title: "Due Today Task", dueDate: "2023-12-27", completed: false });
 
-const formattedDate = (d) => d.toISOString().split("T")[0];
+  const dueTodayItems = todos.dueToday();
 
-const dateToday = new Date();
-const today = formattedDate(dateToday);
-const yesterday = formattedDate(new Date(dateToday.setDate(dateToday.getDate() - 1)));
-const tomorrow = formattedDate(new Date(dateToday.setDate(dateToday.getDate() + 1)));
+  expect(dueTodayItems.length).toBe(1);
+  expect(dueTodayItems[0].title).toBe("Due Today Task");
+});
 
-todos.add({ title: "Submit assignment", dueDate: yesterday, completed: false });
-todos.add({ title: "Pay rent", dueDate: today, completed: true });
-todos.add({ title: "Service Vehicle", dueDate: today, completed: false });
-todos.add({ title: "File taxes", dueDate: tomorrow, completed: false });
-todos.add({ title: "Pay electric bill", dueDate: tomorrow, completed: false });
+test("Test to retrieve due later items", () => {
+  const todos = todoList();
+  todos.add({ title: "Due Later Task", dueDate: "2023-12-29", completed: false });
 
-console.log("My Todo-list\n");
+  const dueLaterItems = todos.dueLater();
 
-console.log("Overdue");
-const overdues = todos.overdue();
-const formattedOverdues = todos.toDisplayableList(overdues);
-console.log(formattedOverdues);
-console.log("\n");
-
-console.log("Due Today");
-const itemsDueToday = todos.dueToday();
-const formattedItemsDueToday = todos.toDisplayableList(itemsDueToday);
-console.log(formattedItemsDueToday);
-console.log("\n");
-
-console.log("Due Later");
-const itemsDueLater = todos.dueLater();
-const formattedItemsDueLater = todos.toDisplayableList(itemsDueLater);
-console.log(formattedItemsDueLater);
-console.log("\n\n");
+  expect(dueLaterItems.length).toBe(1);
+  expect(dueLaterItems[0].title).toBe("Due Later Task");
+});
