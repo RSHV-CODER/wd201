@@ -9,12 +9,13 @@
     <meta name="csrf-token" content="<%= csrfToken %>">
     <link href="./css/styles.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <script>
+    <!--
+    <script>
       var token = document.querySelector("meta[name='csrf-token']").getAttribute("content");
       const updateTodo = (id) => {
-          const bool = document.querySelector(`#checkbox-${id}`).checked; 
+          const bool = document.querySelector(#checkbox-${id}).checked; 
           console.log(bool);
-          fetch(`/todos/${id}`, {
+          fetch(/todos/${id}, {
               method: "PUT",
               headers: {
                   "Content-Type": "application/json",
@@ -34,7 +35,7 @@
           });
       };
       function deleteTodo(id) {
-          fetch(`/todos/${id}`, {
+          fetch(/todos/${id}, {
               method: "delete",
               headers: { "Content-type": "application/json"},
               body: JSON.stringify({
@@ -47,22 +48,23 @@
               }
           }).catch((err) => console.err(err))
       }
-  </script> -->
+    </script>
+    -->
 </head>
 <body>
-   <div class= "grid  grid-cols-6">
+   <div class="grid grid-cols-6">
     <div class="col-start-3 col-span-2">
-    <%- include("header.ejs") %> <br>
-   
-    <h4 class="text-center text-2xl font-semibold mb-2" style="white-space: nowrap;">Welcome to Todos Manager</h4>
+        <%- include("header.ejs") %> <br>
 
-    <p class="text-center text-gray-600">New Here..? <a href="/signup" class="text-blue-500">Signup now</a></p>
-    
-    <p class="text-center text-gray-600">Already have an account..? <a href="/login" class="text-blue-500">SignIn now</a></p>
+        <h4 class="text-center text-2xl font-semibold mb-2" style="white-space: nowrap;">Welcome to Todos Manager</h4>
 
-    <br>
-    <%- include('footer.ejs') %>
-</div>
-</div>
+        <p class="text-center text-gray-600">New Here..? <a href="/signup" class="text-blue-500">Signup now</a></p>
+
+        <p class="text-center text-gray-600">Already have an account..? <a href="/login" class="text-blue-500">SignIn now</a></p>
+
+        <br>
+        <%- include('footer.ejs') %>
+    </div>
+    </div>
 </body>
 </html>
