@@ -12,6 +12,7 @@ const db = {};
 
 let sequelize;
 
+
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
@@ -21,6 +22,31 @@ if (config.use_env_variable) {
     config.password,
     config
   );
+try {
+  if (config.use_env_variable) {
+    console.log(`Using environment variable: ${config.use_env_variable}`);
+    
+    if (!process.env[config.use_env_variable]) {
+      throw new Error(`Environment variable ${config.use_env_variable} is not set.`);
+    }
+
+    sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  } else {
+    console.log("Using local database configuration.");
+    
+    sequelize = new Sequelize(
+      config.database,
+      config.username,
+      config.password,
+      config,
+    );
+  }
+
+  console.log("Sequelize initialized successfully.");
+} catch (error) {
+  console.error("Error during Sequelize initialization:", error);
+  process.exit(1);
+
 }
 
 fs.readdirSync(__dirname)
@@ -30,11 +56,22 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
+
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes
     );
     db[model.name] = model;
+    try {
+      const model = require(path.join(__dirname, file))(
+        sequelize,
+        Sequelize.DataTypes,
+      );
+      db[model.name] = model;
+      console.log(`Model "${model.name}" loaded successfully.`);
+    } catch (error) {
+      console.error(`Error loading model from file "${file}":`, error);
+    }
   });
 
 // Load the User model separately
@@ -53,4 +90,4 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+module.exports = db;}
