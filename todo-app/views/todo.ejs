@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="<%= csrfToken %>">
     <link href="./css/styles.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <script>
+    <script>
       var token = document.querySelector("meta[name='csrf-token']").getAttribute("content");
       const updateTodo = (id) => {
           const bool = document.querySelector(`#checkbox-${id}`).checked; 
@@ -47,22 +47,43 @@
               }
           }).catch((err) => console.err(err))
       }
-  </script> -->
+  </script>
 </head>
 <body>
    <div class= "grid  grid-cols-6">
     <div class="col-start-3 col-span-2">
-    <%- include("header.ejs") %> <br>
-   
-    <h4 class="text-center text-2xl font-semibold mb-2" style="white-space: nowrap;">Welcome to Todos Manager</h4>
-
-    <p class="text-center text-gray-600">New Here..? <a href="/signup" class="text-blue-500">Signup now</a></p>
-    
-    <p class="text-center text-gray-600">Already have an account..? <a href="/login" class="text-blue-500">SignIn now</a></p>
-
+    <%- include("header.ejs") %> 
+    <a href="/signout">Signout</a>
+     <form action="/todos" method="post">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="flex gap-2 py-4">
+            <div class="flex-auto">
+                <input type="text" name="title" placeholder="what's next..?" class="border border-purple-300 rounded text-gray-900 w-full p-2 text-sm" required />
+            </div>
+        <div class="flex-auto">
+            <input type="date" name="dueDate" class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm leading-4 " required/>
+        </div>
+        <div class="flex-none">
+            <button type="submit" class="bg-green-600 text-white px-5 py-1.5 rounded font-medium mr-2 mb-2">Add</button>
+        </div>  
+        </div>
+    </form>
+    <%- include('todos.ejs', { title: "OverDue", data: overDue, ID:"count-overdue" }) %>
+    <%- include('todos.ejs', { title: "Due Today", data: due_Today, ID:"count-due-today" }) %>
+    <%- include('todos.ejs', { title: "Due Later", data: due_Later, ID:"count-due-later" }) %>
+    <%- include('todos.ejs', { title: "Completed Items", data: completed_items, ID:"count-completed" }) %>
+    <hr>
     <br>
-    <%- include('footer.ejs') %>
+    <div>
+        <% if (messages.success) { %>
+          <div class="alert alert-success">
+            <p class="rounded-full border-2 p-2 bg-gray-600 text-center text-white"><%= messages.success %></p>
+         </div>
+        <% } %>
+        
+        </div>
 </div>
+
 </div>
 </body>
 </html>
