@@ -26,6 +26,8 @@ try {
       config,
     );
   }
+  
+  console.log("Sequelize initialized successfully.");
 } catch (error) {
   console.error("Error during Sequelize initialization:", error);
   process.exit(1);
@@ -44,6 +46,7 @@ fs.readdirSync(__dirname)
         Sequelize.DataTypes,
       );
       db[model.name] = model;
+      console.log(`Model "${model.name}" loaded successfully.`);
     } catch (error) {
       console.error(`Error loading model from file "${file}":`, error);
     }
