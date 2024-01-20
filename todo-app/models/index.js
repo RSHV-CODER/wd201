@@ -25,9 +25,9 @@ try {
     console.log("Using local database configuration.");
 
     sequelize = new Sequelize(
-      config.database,
-      config.username,
-      config.password,
+      config.wd-todo-dev,
+      config.postgres,
+      config.Kabikabi,
       config
     );
   }
