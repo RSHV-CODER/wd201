@@ -1,125 +1,50 @@
 "use strict";
-const { Model, Op } = require("sequelize");
 
-module.exports = (sequelize, DataTypes) => {
-  class Todo extends Model {
-    static associate(models) {
-      Todo.belongsTo(models.User, {
-        foreignKey: 'userId'
-      });
-    }
+const fs = require("fs");
+const path = require("path");
+const Sequelize = require("sequelize");
+const process = require("process");
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || "development";
+const config = require(__dirname + "/../config/config.json")[env];
+const db = {};
 
-    static addTodo({ title, dueDate, userId }) {
-      return this.create({
-        title: title,
-        dueDate: dueDate,
-        completed: false,
-        userId
-      });
-    }
+let sequelize;
 
-    static getTodos() {
-      return this.findAll();
-    }
 
-    deleteTodo() {
-      return this.update({ completed: true });
-    }
-
-    static dueToday(userId) {
-      return this.findAll({
-        where: {
-          dueDate: {
-            [Op.eq]: new Date().toLocaleDateString("en-CA"),
-          },
-          userId,
-          completed: false,
-        },
-        order: [["id", "ASC"]],
-      });
-    }
-
-    markAsCompleted() {
-      return this.update({ completed: true });
-    }
-
-    static overdue(userId) {
-      return this.findAll({
-        where: {
-          dueDate: {
-            [Op.lt]: new Date().toLocaleDateString("en-CA"),
-          },
-          userId,
-          completed: false,
-        },
-        order: [["id", "ASC"]],
-      });
-    }
-
-    static completed(userId) {
-      return this.findAll({
-        where: {
-          completed: true,
-          userId
-        },
-        order: [["id", "ASC"]],
-      });
-    }
-
-    static async remove(id, userId) {
-      return this.destroy({
-        where: { id, userId }
-      });
-    }
-
-    setCompletionStatus(boolean) {
-      return this.update({ completed: boolean });
-    }
-
-    static dueLater(userId) {
-      return this.findAll({
-        where: {
-          dueDate: {
-            [Op.gt]: new Date().toLocaleDateString("en-CA"),
-          },
-          userId,
-          completed: false,
-        },
-        order: [["id", "ASC"]],
-      });
-    }
-  }
-
-  Todo.init(
-    {
-      title: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            notNull: true,
-            len: [5, 255],
-            msg: "Title should be between 5 and 255 characters.",
-          },
-        },
-      },
-      dueDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-        validate: {
-          isDate: {
-            args: true,
-            msg: "Due date is required",
-          },
-        },
-      },
-      completed: DataTypes.BOOLEAN,
-    },
-    {
-      sequelize,
-      modelName: "Todo",
-    }
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config,
   );
+}
 
-  return Todo;
-};
+fs.readdirSync(__dirname)
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+
+  })
+  .forEach((file) => {
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes,
+    );
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;
