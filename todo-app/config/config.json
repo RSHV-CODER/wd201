@@ -1,22 +1,26 @@
 {
   "development": {
     "username": "postgres",
-    "password": "Swanand2003",
-    "database": "wd_todo_dev",
+    "password": "Hasika@2005",
+    "database": "wd-tofo-dev",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "loggin": false
+    "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "Swanand2003",
-    "database": "wd_todo_test",
+    "password": "Hasika@2005",
+    "database": "wd-todo-test",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "loggin": false
+    "dialect": "postgres"
   },
   "production": {
     "use_env_variable": "DATABASE_URL",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
