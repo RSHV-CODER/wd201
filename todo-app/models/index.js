@@ -13,11 +13,17 @@ const db = {};
 let sequelize;
 
 try {
-  if (process.env.DATABASE_URL) {
-    console.log("Using environment variable: DATABASE_URL");
-    sequelize = new Sequelize(process.env.DATABASE_URL, config);
+  if (config.use_env_variable) {
+    console.log(`Using environment variable: ${config.use_env_variable}`);
+
+    if (!process.env[config.use_env_variable]) {
+      throw new Error(`Environment variable ${config.use_env_variable} is not set.`);
+    }
+
+    sequelize = new Sequelize(process.env[config.use_env_variable], config);
   } else {
     console.log("Using local database configuration.");
+
     sequelize = new Sequelize(
       config.wd-todo-dev,
       config.postgres,
