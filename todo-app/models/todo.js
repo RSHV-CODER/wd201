@@ -1,27 +1,31 @@
 "use strict";
 const { Model, Op } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     static associate(models) {
-      Todo.belongsTo(models.User,{
-        foreignKey:'userId'
-      })
-     }
-    static addTodo({ title, dueDate,userId }) {
-      return this.create({ 
-          title: title,
-          dueDate: dueDate,
-          completed: false,
-        userId });
+      Todo.belongsTo(models.User, {
+        foreignKey: 'userId'
+      });
     }
+
+    static addTodo({ title, dueDate, userId }) {
+      return this.create({
+        title: title,
+        dueDate: dueDate,
+        completed: false,
+        userId
+      });
+    }
+
     static getTodos() {
       return this.findAll();
     }
 
-    deletetodo() {
+    deleteTodo() {
       return this.update({ completed: true });
     }
-    
+
     static dueToday(userId) {
       return this.findAll({
         where: {
@@ -34,9 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         order: [["id", "ASC"]],
       });
     }
+
     markAsCompleted() {
       return this.update({ completed: true });
     }
+
     static overdue(userId) {
       return this.findAll({
         where: {
@@ -48,7 +54,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         order: [["id", "ASC"]],
       });
-    }    
+    }
+
     static completed(userId) {
       return this.findAll({
         where: {
@@ -58,15 +65,17 @@ module.exports = (sequelize, DataTypes) => {
         order: [["id", "ASC"]],
       });
     }
-    static async remove(id, userId ) {
+
+    static async remove(id, userId) {
       return this.destroy({
-        where: { id },
-        userId
+        where: { id, userId }
       });
     }
+
     setCompletionStatus(boolean) {
       return this.update({ completed: boolean });
     }
+
     static dueLater(userId) {
       return this.findAll({
         where: {
@@ -88,9 +97,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notEmpty: {
-            notNull:true,
-            len: 5,
-            msg: "Title cannot empty.",
+            notNull: true,
+            len: [5, 255],
+            msg: "Title should be between 5 and 255 characters.",
           },
         },
       },
@@ -111,5 +120,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Todo",
     }
   );
+
   return Todo;
 };
