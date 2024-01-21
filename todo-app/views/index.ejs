@@ -52,6 +52,17 @@
     -->
 </head>
 <body>
+   <table>
+    <% for(vae i = 0;i < allTodo.length; i++){ %>
+   <tr>
+     <td>
+        <%= allTodos[i].title %>
+     </td>
+   </tr>
+
+       <% }%>
+   </table>
+
    <div class="grid grid-cols-6">
     <div class="col-start-3 col-span-2">
         <%- include("header.ejs") %> <br>
