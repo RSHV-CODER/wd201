@@ -14,7 +14,6 @@ const flash = require("connect-flash");
 
 const saltRounds = 10;
 
-// Middleware setup
 app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,7 +31,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Passport LocalStrategy
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
@@ -70,15 +68,21 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Routes
-app.get('/', async (req, res) => {
-  if (req.user) {
-    res.redirect('/todos');
-  } else {
-    res.render('index', {
-      title: 'Todo Application',
-      csrfToken: req.csrfToken(),
-    });
+app.get("/", async (request, response) => {
+  try {
+    const allTodos = await Todo.getTodo();
+    if (request.accepts("html")) {
+      response.render('index', {
+        allTodos
+      });
+    } else {
+      response.json({
+        allTodos
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    response.status(500).send('Internal Server Error');
   }
 });
 
@@ -121,17 +125,6 @@ app.get("/todos/:id", async (req, res) => {
   }
 });
 
-app.get("/todos", async (req, res) => {
-  console.log("Listing Items");
-  try {
-    const todoList = await Todo.findAll();
-    return res.send(todoList);
-  } catch (err) {
-    console.log(err);
-    return res.status(422).json(err);
-  }
-});
-
 app.post("/todos", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
   if (!req.body.title) {
     req.flash("error", "Empty title not allowed");
@@ -158,3 +151,4 @@ app.post("/todos", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
 // ... (continued for other routes)
 
 module.exports = app;
+
