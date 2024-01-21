@@ -53,24 +53,25 @@
 </head>
 <body>
 
-   <table border="1">
+  <table>
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Title</th>
-                <th>Completed</th>
+                <th>Due Date</th>
+                <!-- Add more columns as needed -->
             </tr>
         </thead>
         <tbody>
             <% allTodos.forEach(todo => { %>
                 <tr>
-                    <td><%= todo.id %></td>
                     <td><%= todo.title %></td>
-                    <td><%= todo.completed ? 'Yes' : 'No' %></td>
+                    <td><%= todo.dueDate %></td>
+                    <!-- Add more columns as needed -->
                 </tr>
             <% }); %>
         </tbody>
     </table>
+
 
 
    <div class="grid grid-cols-6">
