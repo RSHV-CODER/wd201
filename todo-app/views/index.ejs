@@ -13,9 +13,9 @@
     <script>
       var token = document.querySelector("meta[name='csrf-token']").getAttribute("content");
       const updateTodo = (id) => {
-          const bool = document.querySelector(#checkbox-${id}).checked; 
+          const bool = document.querySelector(`#checkbox-${id}`).checked; 
           console.log(bool);
-          fetch(/todos/${id}, {
+          fetch(`/todos/${id}`, {
               method: "PUT",
               headers: {
                   "Content-Type": "application/json",
@@ -35,32 +35,34 @@
           });
       };
       function deleteTodo(id) {
-          fetch(/todos/${id}, {
+          fetch(`/todos/${id}`, {
               method: "delete",
               headers: { "Content-type": "application/json"},
               body: JSON.stringify({
-                  "_csrf":token
+                  "_csrf": token
               })
           })
           .then((res) => {
               if(res.ok) {
-                  window.location.reload()
+                  window.location.reload();
               }
-          }).catch((err) => console.err(err))
+          })
+          .catch((err) => {
+              console.error(err);
+          });
       }
     </script>
     -->
 </head>
 <body>
    <table>
-    <% for(var i = 0;i < allTodo.length; i++){ %>
-   <tr>
-     <td>
-        <%= allTodos[i].title %>
-     </td>
-   </tr>
-
-       <% }%>
+    <% for(var i = 0; i < allTodo.length; i++){ %>
+       <tr>
+         <td>
+            <%= allTodo[i].title %>
+         </td>
+       </tr>
+    <% } %>
    </table>
 
    <div class="grid grid-cols-6">
@@ -76,6 +78,6 @@
         <br>
         <%- include('footer.ejs') %>
     </div>
-    </div>
+   </div>
 </body>
 </html>
