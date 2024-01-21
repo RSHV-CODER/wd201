@@ -151,4 +151,3 @@ app.post("/todos", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
 // ... (continued for other routes)
 
 module.exports = app;
-
