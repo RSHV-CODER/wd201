@@ -5,33 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./css/styles.css" rel="stylesheet">
     <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <%- include('header.ejs') %>
-    <%- include("todo.ejs",{todos:allTodos})%>
 
-    <h1>Todo List</h1>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+          <%- include('header.ejs') %>
+          
+        </div>
+    </div>
+    <%- include("todos.ejs")%>
+    <%- include("todo.ejs")%>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Completed</th>
-                <!-- Add more table headers as needed -->
-            </tr>
-        </thead>
-        <tbody>
-            <% allTodos.forEach(todo => { %>
-                <tr>
-                    <td><%= todo.id %></td>
-                    <td><%= todo.title %></td>
-                    <td><%= todo.completed ? 'Yes' : 'No' %></td>
-                    <!-- Add more table cells as needed -->
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
+
+    
+
     
     <%- include('footer.ejs') %>
 </body>
