@@ -8,13 +8,14 @@
   },
   "test": {
     "username": "postgres",
-    "password": "plasma",
+    "password": "password",
     "database": "wd-todo-test",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
-    "use_env_variable":"DATABASE_URL",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres"
   }
 }
