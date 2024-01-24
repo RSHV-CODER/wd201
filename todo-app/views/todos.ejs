@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="flex mb-2">
     <h5><%= title %></h5>
     <span id="<%= id %>" class="px-2 py-1 bg-gray-300 text-gray-900 text-sm font-small ml-2 px-2.5 py-0.5 rounded dark:bg-gray-300 justify-center items-center items" ><%= Due.length %></span>
@@ -25,3 +26,71 @@
 
 
 
+=======
+<div class="grid grid-cols-6">
+    <div class="col-start-3 col-span-2">
+
+<form>
+    <div class="flex gap-2 p-4">
+        <div class="flex-auto">
+            <input type="text" placeholder="what's next?" class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm " required />
+        </div>
+        <div class="flex-auto">
+            <input type="date" class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm leading-4" />
+    </div>
+    <div class="flex-none">
+        <button type="submit" class="bg-green-600 text-white px-5 py-1.5 rounded font-medium mr-2 mb-2" >Add</button>
+    </div>
+    </div>
+    
+</form>
+
+
+<h5 style="display:inline">Overdue</h5> <span style="display:inline" id='count-overdue' class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2">2</span>
+    <ul class="list-none">
+      <li class="Todo-Item">
+        <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
+          <input id="todo-checkbox-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border ">
+          <label for="todo-checkbox-1" class="ml-2 text-sm text-gray-600 cursor-pointer"> Karate trenning </label>
+          <a href="#" class="hidden trash-icon ml-2">
+            
+          </a>            
+        </div>
+      </li>
+      <li>
+        <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
+            <input id="todo-checkbox-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border ">
+            <label for="todo-checkbox-1" class="ml-2 text-sm text-gray-600 cursor-pointer">Guitar classes</label>
+            <a href="#" class="hidden trash-icon ml-2">
+             
+            </a>            
+          </div>
+      </li>
+    <h5 style="display:inline">Due Today</h5> <span style="text-align:right" id='count-due-today' class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2">1</span>
+    <ul class="list-none">
+      <li class="Todo-Item" >
+        <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
+          <input id="todo-checkbox-7" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border ">
+          <label for="todo-checkbox-7" class="ml-2 text-sm text-gray-600 cursor-pointer"> MMA fight </label>
+          <a href="#" class="hidden trash-icon ml-2">
+            
+          </a>
+        </div>
+      </li>
+    </ul>
+    <h5 style="display:inline">Due Later</h5> <span style="text-align:right" id='count-due-later' class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2">1</span>
+    <ul class="list-none">
+      <li class="Todo-Item" >
+        <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
+          <input id="todo-checkbox-14" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border ">
+          <label for="todo-checkbox-14" class="ml-2 text-sm text-gray-600 cursor-pointer"> Date with GF</label>
+          <a href="#" class="hidden trash-icon ml-2">
+            
+          </a>
+        </div>
+      </li>
+    </ul>
+
+</div>
+</div>
+>>>>>>> 12d1c90c4401732e19a8f98f9dcdf82ebf2979d6
