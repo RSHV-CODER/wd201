@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
+// Import required modules
 const express = require("express");
 const app = express();
 const { Todo, User } = require("./models");
 
+// Import middleware and packages
 const bodyParser = require("body-parser");
 const csrf = require("tiny-csrf");
 const cookieParser = require("cookie-parser");
@@ -18,18 +20,21 @@ const saltRounds = 10;
 const path = require("path");
 const flash = require("connect-flash");
 
+// Initialize flash messages
 app.use(flash());
 
+// Set views directory and view engine
 app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
+// Middleware setup
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("shh! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.set("view engine", "ejs");
-
+// Session setup
 app.use(session({
   secret: "my-super-secret-key-66498466848",
   cookie: {
@@ -39,9 +44,11 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+// Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Set flash messages in locals
 app.use(function (request, response, next) {
   response.locals.messages = request.flash();
   next();
@@ -68,14 +75,14 @@ passport.use(new LocalStrategy({
     });
 }));
 
+// Serialize user in session
 passport.serializeUser((user, done) => {
-  // Serializing user in the session
   console.log("Serializing user in session", user.id)
   done(null, user.id)
 });
 
+// Deserialize user from session
 passport.deserializeUser((id, done) => {
-  // Deserializing user from the session
   User.findByPk(id)
     .then(user => {
       done(null, user)
@@ -202,11 +209,6 @@ app.get("/signout", (request, response, next) => {
     if (err) { return next(err); }
     response.redirect("/");
   })
-});
-
-// Sample Route
-app.get("/", function (request, response) {
-  response.send("Hello World");
 });
 
 // Todos API Route
